@@ -105,7 +105,7 @@ def train_model(model_name, model, criterion, optimizer, train_loader, valid_loa
     if torch.cuda.is_available():
         model.cpu()
 
-    return model, train_perf#, train_loss[:(epoch+1)], valid_loss[:(epoch+1)], precision[:(epoch+1)], recall[:(epoch+1)], F1score[:(epoch+1)]
+    return model, train_perf
 
 
 def init_train_perf():
@@ -119,6 +119,7 @@ def init_train_perf():
     train_perf['criteria_best'] = []
 
     return train_perf
+
 
 def init_criteria(train_stop_criteria, train_perf):
 

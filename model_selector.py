@@ -1,4 +1,8 @@
 from utils import *
+from torch import nn
+from torch import optim
+from collections import OrderedDict
+from torchvision import datasets, transforms, models
 
 
 def model_selector(model_name):
@@ -64,6 +68,8 @@ def model_selector(model_name):
     elif model_name == 'IgorNetV2':
 
         dropout_prob = 0.3
+        learn_rate = 0.0001
+
         model = Net_v1(dropout_prob)
         optimizer = optim.Adam(model.parameters(), lr=learn_rate)
         criterion = nn.NLLLoss()
@@ -75,6 +81,7 @@ def model_selector(model_name):
     os.makedirs('models/' + model_name, exist_ok=True)
 
     return model, optimizer, criterion, batch_size, learn_rate, train_stop_criteria, train_stop_patience
+
 
 class Net_v1(nn.Module):
     def __init__(self, dropout_prob):
@@ -127,6 +134,7 @@ class Net_v1(nn.Module):
 
     def forward(self, x):
         return self.network(x)
+
 
 class Net_kaggle(nn.Module):
     def __init__(self, dropout_prob):

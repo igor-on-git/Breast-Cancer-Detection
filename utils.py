@@ -5,18 +5,7 @@ import shutil
 import numpy as np
 
 from matplotlib import image
-import matplotlib.pyplot as plt
 
-import torch
-from torch.utils.data import Dataset, DataLoader
-from torch import nn
-from torch import optim
-
-from torchvision import datasets, transforms, models
-
-from collections import OrderedDict
-
-import metrics
 
 def load_data(data_folder, split):
 

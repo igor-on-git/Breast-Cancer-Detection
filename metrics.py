@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def accuracy_metric(reference, estimation):
+def accuracy(reference, estimation):
 
     return np.mean(np.array(reference) == np.array(estimation))
 
@@ -29,9 +29,11 @@ def recall(reference, estimation):
 
     return cm['TP'] / (cm['TP'] + cm['FN'])
 
+
 def F1score(reference, estimation):
 
     return 2 / ( 1/precision(reference, estimation) + 1/recall(reference, estimation) )
+
 
 def Fscore(beta_sq, reference, estimation):
 

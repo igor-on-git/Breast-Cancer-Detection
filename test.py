@@ -29,6 +29,7 @@ def test(model_name, model, criterion, test_loader, device):
 
         # calculate and print avg test loss
         test_perf['test_loss'] /= len(test_loader.dataset)
+        test_perf['accuracy'] = metrics.accuracy(ref_vals, est_vals)
         test_perf['precision'] = metrics.precision(ref_vals, est_vals)
         test_perf['recall'] = metrics.recall(ref_vals, est_vals)
         test_perf['F1score'] = metrics.F1score(ref_vals, est_vals)
@@ -41,6 +42,7 @@ def init_test_perf():
 
     test_perf = {}
     test_perf['test_loss'] = 0
+    test_perf['accuaracy'] = 0
     test_perf['precision'] = 0
     test_perf['recall'] = 0
     test_perf['F1score'] = 0

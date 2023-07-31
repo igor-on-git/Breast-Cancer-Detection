@@ -60,19 +60,21 @@ def train_model(model_name, model, criterion, optimizer, train_loader, valid_loa
         # calculate metrics over an epoch
         train_loss /= len(train_loader.dataset)
         valid_loss /= len(valid_loader.dataset)
+        accuracy = metrics.accuracy(ref_vals, est_vals)
         precision = metrics.precision(ref_vals, est_vals)
         recall = metrics.recall(ref_vals, est_vals)
         F1score = metrics.F1score(ref_vals, est_vals)
 
         train_perf['train_loss'].extend([train_loss])
         train_perf['valid_loss'].extend([valid_loss])
+        train_perf['accuracy'].extend([accuracy])
         train_perf['precision'].extend([precision])
         train_perf['recall'].extend([recall])
         train_perf['F1score'].extend([F1score])
         end_time = time.time()
 
         # print training/validation statistics
-        print('Model: {}\tDevice: {}\tRun time: {:.2f}'.format(model_name, device, end_time - start_time))
+        print('Model: {}\tDevice: {}\tRun time: {:.2f} min'.format(model_name, device, (end_time - start_time)/60))
         print('Epoch: {} \tTraining Loss: {:.3f} \tValidation Loss: {:.3f} \tPrecision: {:.3f}% \tRecall: {:.3f}% \tF1-score: {:.3f}'.format(
             epoch + 1, train_loss, valid_loss, precision*100, recall*100, F1score) )
 
@@ -113,6 +115,7 @@ def init_train_perf():
     train_perf = {}
     train_perf['train_loss'] = []
     train_perf['valid_loss'] = []
+    train_perf['accuracy'] = []
     train_perf['precision'] = []
     train_perf['recall'] = []
     train_perf['F1score'] = []

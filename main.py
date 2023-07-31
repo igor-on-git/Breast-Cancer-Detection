@@ -1,15 +1,17 @@
 from train import *
 from test import *
 from model_selector import *
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
+
 
 if __name__ == '__main__':
 
     # parameters
-    model_name_list = ['densenet121', 'resnet152'] #['resnet152', 'densenet121', 'IgorNetV1', 'IgorNetV2',]
+    model_name_list = ['IgorNet_v3']
     train_en = 1 # 0 - run test on saved net 1 - train network
     continue_training = 1 # 0 - train from scratch 1 - load saved net and continue training
-    train_epochs = 2
+    test_en = 1
+    train_epochs = 20
 
     # one time prep data to match imagefolder functionality
     # https://www.kaggle.com/datasets/paultimothymooney/breast-histopathology-images
@@ -68,11 +70,19 @@ if __name__ == '__main__':
         else:
 
             model.load_state_dict(torch.load('models/' + model_name + '/state_dict.pth'))
-            train_perf = {}
+            train_perf = np.load('models/' + model_name + '/train_perf.npy', allow_pickle=True).item()
 
-        test_perf_all[model_ind] = test(model_name, model, criterion, testloader, device)
-        np.save('models/' + model_name + '/test_perf.npy', test_perf_all[model_ind])
+        plot_train_results(model_name, train_perf)
+        if test_en:
+            test_perf_all[model_ind] = test(model_name, model, criterion, testloader, device)
+            np.save('models/' + model_name + '/test_perf.npy', test_perf_all[model_ind])
+        else:
+            try:
+                test_perf_all[model_ind] = np.load('models/' + model_name + '/test_perf.npy', allow_pickle=True).item()
+            except:
+                test_perf_all[model_ind] = None
 
     test_metric_all = [test_perf_all[i]['F1score'] for i in range(len(model_name_list))]
     best_ind = np.argwhere(test_metric_all == np.max(test_metric_all))
     print('Best(F1 score) Net is: {}'.format(model_name_list[int(best_ind)]))
+

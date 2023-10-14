@@ -10,7 +10,7 @@ if __name__ == '__main__':
     model_name_list = ['IgorNet_v3']
     train_en = 1 # 0 - run test on saved net 1 - train network
     continue_training = 1 # 0 - train from scratch 1 - load saved net and continue training
-    test_en = 1
+    test_en = 0
     train_epochs = 20
 
     # one time prep data to match imagefolder functionality
